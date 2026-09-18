@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title id="tab-title">Happy Wedding Anniversary 💍❤️</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Premium Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --color-pink-bg: #fff0f3;
+      --color-white: #ffffff;
+      --color-black: #3a2228;
+      --color-heart: #ff2a5f;
+      --rose-pink: #ff758c;
+      --rose-accent: #ff416c;
+      --gold-light: #ffd700;
+      --font-body: 'Poppins', sans-serif;
+      --font-cinzel: 'Cinzel', serif;
+      --font-calligraphy: 'Alex Brush', cursive;
+      --font-cute: 'Dancing Script', cursive;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--color-pink-bg);
+      background-image: 
+        radial-gradient(circle at 50% 12%, rgba(255, 182, 193, 0.5) 0%, transparent 60%),
+        radial-gradient(#ffccd5 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 107, 139, 0.15) 1.5px, transparent 0);
+      background-size: 100% 100%, 28px 28px, 28px 28px;
+      background-position: 0 0, 0 0, 14px 14px;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+      padding: 65px 15px 30px;
+      text-align: center;
+      color: var(--color-black);
+    }
+
+    /* THEMED HANGING FAIRY BULB LIGHTS */
+    .ceiling-lights {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 110px;
+      pointer-events: none;
+      z-index: 25;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 10px;
+    }
+    .light-hanger {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      animation: gentleSway 4s ease-in-out infinite alternate;
+    }
+    .wire {
+      width: 1.5px;
+      background: linear-gradient(to bottom, rgba(255, 107, 139, 0.5), rgba(255, 215, 0, 0.8));
+    }
+    .holder {
+      width: 7px;
+      height: 6px;
+      background: #c78292;
+      border-radius: 2px 2px 0 0;
+    }
+    .bulb {
+      width: 15px;
+      height: 22px;
+      background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fff0a8 45%, #ff9ebb 100%);
+      border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+      box-shadow: 0 0 16px 6px rgba(255, 158, 187, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+    @keyframes gentleSway {
+      0% { transform: rotate(-3.5deg); }
+      100% { transform: rotate(3.5deg); }
+    }
+
+    /* AMBIENT FIREFLIES & GLOW SPARKLES */
+    .sparkle-container {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .firefly {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #ffd700 60%, rgba(255, 117, 140, 0.4) 100%);
+      box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.65), 0 0 16px 4px rgba(255, 107, 139, 0.35);
+      animation: drift var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    .fairy-symbol {
+      position: absolute; font-size: 14px; color: #ff758c;
+      filter: drop-shadow(0 0 6px rgba(255, 117, 140, 0.5));
+      animation: softFloat var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    @keyframes drift {
+      0% { transform: translateY(0px) translateX(0px); }
+      100% { transform: translateY(-22px) translateX(8px); }
+    }
+    @keyframes softFloat {
+      0% { transform: translateY(0px) scale(0.9); }
+      100% { transform: translateY(-16px) scale(1.15); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.95; }
+    }
+
+    /* POPPING HEARTS ON CLICK */
+    .tap-heart-particle {
+      position: fixed; pointer-events: none; z-index: 9999;
+      font-size: 20px; animation: heartFly 1s ease-out forwards;
+    }
+    @keyframes heartFly {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+      100% { transform: translate(-50%, -120px) scale(1.4); opacity: 0; }
+    }
+
+    /* MAIN ANNIVERSARY CARD */
+    .anniversary-card {
+      width: 100%;
+      max-width: 410px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border: 3.5px solid var(--color-black);
+      border-radius: 36px;
+      padding: 26px 18px 22px;
+      box-shadow: 0 18px 45px rgba(255, 107, 139, 0.28), 0 0 30px rgba(255, 214, 223, 0.5);
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* TOP DATE BADGE */
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #ff758c, #ff416c);
+      border: 2px solid var(--color-black);
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 30px;
+      margin-bottom: 6px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 65, 108, 0.25);
+    }
+
+    /* TOP CALLIGRAPHY TITLE */
+    .top-anniversary-title {
+      font-family: var(--font-calligraphy);
+      font-size: clamp(40px, 10vw, 48px);
+      line-height: 1.1;
+      margin-bottom: 2px;
+      background: linear-gradient(135deg, #ff1493 0%, #ff416c 50%, #ff758c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 6px rgba(255, 20, 147, 0.25));
+    }
+
+    .couple-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.45rem, 5.2vw, 1.85rem);
+      font-weight: 700;
+      color: var(--color-black);
+      line-height: 1.25;
+      margin-bottom: 2px;
+    }
+
+    .subtitle-anniv {
+      font-family: var(--font-cute);
+      font-size: 1.35rem;
+      color: var(--color-heart);
+      margin-bottom: 14px;
+      font-weight: 700;
+    }
+
+    /* PHOTO FRAME WITH HEARTBEAT GLOW */
+    .photo-frame-wrapper {
+      position: relative;
+      width: 175px;
+      height: 175px;
+      margin: 0 auto 14px;
+    }
+    .photo-frame {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3.5px solid var(--color-black);
+      outline: 2.5px dashed var(--rose-pink);
+      outline-offset: 4px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(255, 107, 139, 0.35);
+      background: #fff0f3;
+      animation: heartbeatGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes heartbeatGlow {
+      0% { box-shadow: 0 0 15px rgba(255, 107, 139, 0.3); }
+      100% { box-shadow: 0 0 28px rgba(255, 42, 95, 0.6); }
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* RING CEREMONY SECTION & ANIMATED RINGS */
+    .ring-ceremony-section {
+      margin: 6px 0 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+      position: relative;
+    }
+    .ring-box-icon {
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(135deg, #ffffff 0%, #ffe6ec 100%);
+      border: 3px solid var(--color-black);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--color-heart);
+      box-shadow: 0 8px 20px rgba(255, 107, 139, 0.3);
+      transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .ring-box-icon:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255, 107, 139, 0.45);
+    }
+    .ring-box-icon.opened {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #ffd700;
+      border-color: var(--color-black);
+      box-shadow: 0 0 25px rgba(255, 65, 108, 0.65);
+      transform: scale(1.1);
+    }
+
+    /* FLOATING TWIN RINGS EFFECT */
+    .twin-rings {
+      position: absolute;
+      top: -30px;
+      display: none;
+      gap: 12px;
+      animation: floatRings 2.5s infinite alternate ease-in-out;
+      z-index: 30;
+    }
+    .twin-ring {
+      font-size: 26px;
+      color: #ffd700;
+      filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.85));
+    }
+    @keyframes floatRings {
+      0% { transform: translateY(0) rotate(-4deg); }
+      100% { transform: translateY(-10px) rotate(4deg); }
+    }
+
+    .tap-hint {
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      color: var(--color-heart);
+      text-transform: uppercase;
+      margin-top: 8px;
+      font-weight: 700;
+      animation: pulseText 1.8s infinite alternate;
+    }
+    @keyframes pulseText {
+      0% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    /* LOVE NOTE CAPSULE */
+    .love-note-card {
+      width: 100%;
+      background: #fffbfd;
+      border: 2px solid var(--rose-pink);
+      border-radius: 20px;
+      padding: 12px 14px;
+      box-shadow: 0 4px 16px rgba(255, 107, 139, 0.15);
+      margin-top: 4px;
+    }
+    .note-title {
+      font-family: var(--font-cinzel);
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--color-heart);
+      margin-bottom: 4px;
+      letter-spacing: 0.5px;
+    }
+    .note-content {
+      font-family: var(--font-cute);
+      font-size: 1.22rem;
+      color: #4a1525;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    /* ACTION BUTTON */
+    .bottom-btn-row {
+      margin-top: 16px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .btn-action {
+      padding: 11px 32px;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2.5px solid var(--color-black);
+      background: linear-gradient(135deg, #ff758c, #ff416c);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(255, 65, 108, 0.35);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-action:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 25px rgba(255, 65, 108, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fairy Lights -->
+  <div class="ceiling-lights">
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 52px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 34px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 48px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+  </div>
+
+  <!-- Ambient Glowing Fireflies & Sparkles (No Falling Rain) -->
+  <div class="sparkle-container" id="sparkleBox"></div>
+
+  <div class="anniversary-card">
+    <!-- Top Date Badge -->
+    <div class="sub-badge" id="milestoneBadge">💍 30 April 2026</div>
+
+    <!-- Calligraphy Title -->
+    <h1 class="top-anniversary-title">Happy Anniversary</h1>
+
+    <!-- Couple Names Heading -->
+    <h2 class="couple-title" id="coupleNames">Kuldeep &amp; Usha Kumari</h2>
+    <div class="subtitle-anniv" id="annivDate">Happy Wedding Anniversary 💫</div>
+
+    <!-- Photo Frame with Aura Heartbeat Glow -->
+    <div class="photo-frame-wrapper">
+      <div class="photo-frame">
+        <img src="profile.jpg" onerror="this.src='1.jpg'" id="couplePhoto" alt="Couple Photo">
+      </div>
+    </div>
+
+    <!-- Interactive Ring Ceremony Box -->
+    <div class="ring-ceremony-section" onclick="openRingCeremony()">
+      <div class="twin-rings" id="twinRings">
+        <i class="fa-solid fa-ring twin-ring"></i>
+        <i class="fa-solid fa-ring twin-ring"></i>
+      </div>
+      <div class="ring-box-icon" id="ringBox">
+        <i class="fa-solid fa-ring" id="ringIcon"></i>
+      </div>
+      <div class="tap-hint" id="boxHint">Tap to Exchange Rings 💍✨</div>
+    </div>
+
+    <!-- Love Note Capsule -->
+    <div class="love-note-card">
+      <div class="note-title" id="loveTitle">Forever &amp; Always Bonded ♾️❤️</div>
+      <div class="note-content" id="loveContent">
+        "Every love story is beautiful, but ours is my absolute favorite."
+      </div>
+    </div>
+
+    <!-- Link to Vows.html -->
+    <div class="bottom-btn-row">
+      <a href="vows.html" class="btn-action">
+        <span>Our 7 Sacred Vows</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <audio id="romanticMusic" preload="auto"></audio>
+
+  <script src="anniversary-config.js"></script>
+  <script>
+    // 1. Soft Ambient Floating Sparkles
+    const box = document.getElementById('sparkleBox');
+    const symbols = ['✨', '🌸', '💖', '🌟'];
+
+    for (let i = 0; i < 16; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'firefly';
+      const size = Math.random() * 5 + 4;
+      dot.style.width = `${size}px`;
+      dot.style.height = `${size}px`;
+      dot.style.left = `${Math.random() * 92 + 4}%`;
+      dot.style.top = `${Math.random() * 88 + 6}%`;
+      dot.style.setProperty('--dur', `${3 + Math.random() * 3}s`);
+      dot.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2.5}s`);
+      dot.style.animationDelay = `${Math.random() * 3}s`;
+      box.appendChild(dot);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const sym = document.createElement('div');
+      sym.className = 'fairy-symbol';
+      sym.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      sym.style.left = `${Math.random() * 90 + 5}%`;
+      sym.style.top = `${Math.random() * 85 + 8}%`;
+      sym.style.setProperty('--dur', `${3.5 + Math.random() * 3}s`);
+      sym.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2}s`);
+      sym.style.animationDelay = `${Math.random() * 2.5}s`;
+      box.appendChild(sym);
+    }
+
+    // 2. Romantic Screen Tap Heart Popping Effect
+    window.addEventListener('pointerdown', (e) => {
+      const heart = document.createElement('div');
+      heart.className = 'tap-heart-particle';
+      const heartIcons = ['💖', '💕', '✨', '💍', '🌸'];
+      heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    });
+
+    // 3. Config Setup
+    const audio = document.getElementById('romanticMusic');
+    if (typeof ANNIVERSARY_CONFIG !== "undefined") {
+      if (ANNIVERSARY_CONFIG.coupleNames) document.getElementById('coupleNames').textContent = ANNIVERSARY_CONFIG.coupleNames;
+      if (ANNIVERSARY_CONFIG.weddingDateText) document.getElementById('milestoneBadge').textContent = `💍 ${ANNIVERSARY_CONFIG.weddingDateText}`;
+      if (ANNIVERSARY_CONFIG.page1Sub) document.getElementById('annivDate').textContent = ANNIVERSARY_CONFIG.page1Sub;
+      if (ANNIVERSARY_CONFIG.couplePhoto) document.getElementById('couplePhoto').src = ANNIVERSARY_CONFIG.couplePhoto;
+      if (ANNIVERSARY_CONFIG.musicSrc) audio.src = ANNIVERSARY_CONFIG.musicSrc;
+    } else {
+      audio.src = "music.mp3";
+    }
+
+    // 4. Interactive Ring Ceremony
+    let isOpened = false;
+    function openRingCeremony() {
+      if (isOpened) return;
+      isOpened = true;
+
+      const ringBox = document.getElementById('ringBox');
+      const ringIcon = document.getElementById('ringIcon');
+      const twinRings = document.getElementById('twinRings');
+      const hint = document.getElementById('boxHint');
+
+      ringBox.classList.add('opened');
+      ringIcon.className = "fa-solid fa-gem";
+      twinRings.style.display = "flex";
+      hint.textContent = "Bound Together For Eternity 💍✨";
+      hint.style.color = "#ff2a5f";
+
+      audio.play().catch(e => console.log("Audio play note: ", e));
+
+      confetti({
+        particleCount: 110,
+        spread: 85,
+        origin: { y: 0.65 },
+        colors: ['#ff1493', '#ff416c', '#ff758c', '#ffd700', '#ffffff']
+      });
+    }
+  </script>
+</body>
+</html>

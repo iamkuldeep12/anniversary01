@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title id="tab-title">Make a Wish & Blow! 🎂💍✨</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800&family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --color-pink-bg: #fff0f3;
+      --color-white: #ffffff;
+      --color-black: #3a2228;
+      --color-text-pink: #ff6b8b;
+      --color-heart: #ff3366;
+      --font-body: 'Poppins', sans-serif;
+      --font-cinzel: 'Cinzel', serif;
+      --font-calligraphy: 'Alex Brush', cursive;
+      --font-cute: 'Dancing Script', cursive;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--color-pink-bg);
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(255, 182, 193, 0.45) 0%, transparent 60%),
+        radial-gradient(#ffccd5 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 107, 139, 0.15) 1.5px, transparent 0);
+      background-size: 100% 100%, 28px 28px, 28px 28px;
+      background-position: 0 0, 0 0, 14px 14px;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+      padding: 65px 15px 30px;
+      text-align: center;
+    }
+
+    /* THEMED HANGING FAIRY BULB LIGHTS */
+    .ceiling-lights {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 110px;
+      pointer-events: none;
+      z-index: 25;
+      display: flex;
+      justify-content: space-around;
+    }
+    .light-hanger {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      animation: gentleSway 4s ease-in-out infinite alternate;
+    }
+    .wire {
+      width: 1.5px;
+      background: linear-gradient(to bottom, rgba(255, 107, 139, 0.5), rgba(255, 215, 0, 0.8));
+    }
+    .holder {
+      width: 7px;
+      height: 6px;
+      background: #c78292;
+      border-radius: 2px 2px 0 0;
+    }
+    .bulb {
+      width: 15px;
+      height: 22px;
+      background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fff0a8 45%, #ff9ebb 100%);
+      border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+      box-shadow: 0 0 16px 6px rgba(255, 158, 187, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+    @keyframes gentleSway {
+      0% { transform: rotate(-3.5deg); }
+      100% { transform: rotate(3.5deg); }
+    }
+
+    .cake-card {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border: 3.5px solid var(--color-black);
+      border-radius: 36px;
+      padding: 28px 18px 24px;
+      box-shadow: 0 18px 45px rgba(255, 107, 139, 0.28), 0 0 30px rgba(255, 214, 223, 0.5);
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* UPAR ATTRACTIVE COLORED CALLIGRAPHY TITLE */
+    .top-anniversary-title {
+      font-family: var(--font-calligraphy);
+      font-size: clamp(38px, 10vw, 48px);
+      line-height: 1.1;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #ff1493 0%, #ff4b2b 50%, #ff758c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(255, 20, 147, 0.3));
+    }
+
+    /* CAKE */
+    .cake-board {
+      margin: 8px 0 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+    .candles-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      margin-bottom: -5px;
+      z-index: 10;
+    }
+    .candle-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+    }
+    .flame-wrapper {
+      position: relative;
+      width: 16px; height: 26px;
+      display: flex; justify-content: center; align-items: flex-end;
+    }
+    .candle-flame {
+      width: 14px;
+      height: 24px;
+      background: radial-gradient(ellipse at bottom, #ffffff 0%, #ffea79 30%, #ff7700 75%, #d12300 100%);
+      border-radius: 50% 50% 35% 35%;
+      box-shadow: 0 0 16px 6px rgba(255, 185, 45, 0.95), 0 0 30px 8px rgba(255, 107, 139, 0.4);
+      animation: flameFlicker 0.6s infinite alternate ease-in-out;
+      margin-bottom: 2px;
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .candle-flame.blown {
+      opacity: 0;
+      transform: scale(0.1) translateY(-14px);
+      filter: blur(4px);
+      pointer-events: none;
+    }
+    @keyframes flameFlicker {
+      0% { transform: scale(0.95) rotate(-3deg); }
+      100% { transform: scale(1.12) rotate(3deg); }
+    }
+
+    .smoke {
+      position: absolute; width: 8px; height: 8px;
+      background: rgba(220, 180, 190, 0.7);
+      border-radius: 50%; top: 0; opacity: 0; pointer-events: none;
+    }
+    .smoke.active { animation: riseSmoke 0.9s forwards ease-out; }
+    @keyframes riseSmoke {
+      0% { opacity: 0.8; transform: translateY(0) scale(0.8); }
+      50% { opacity: 0.5; transform: translateY(-16px) scale(1.6); }
+      100% { opacity: 0; transform: translateY(-34px) scale(2.4); }
+    }
+
+    .wick { width: 2.5px; height: 6px; background: #333; }
+    .candle-stick {
+      width: 9px;
+      height: 32px;
+      background: repeating-linear-gradient(45deg, #ffd166, #ffd166 4px, #ff758c 4px, #ff758c 8px);
+      border-radius: 3px;
+      border: 1.5px solid var(--color-black);
+    }
+    .candle-unit:nth-child(2) .candle-stick {
+      background: repeating-linear-gradient(45deg, #fff, #fff 4px, #ff9ebb 4px, #ff9ebb 8px);
+      height: 36px;
+    }
+    .candle-unit:nth-child(3) .candle-stick {
+      background: repeating-linear-gradient(45deg, #ffd6df, #ffd6df 4px, #ff3366 4px, #ff3366 8px);
+      height: 40px;
+    }
+    .candle-unit:nth-child(4) .candle-stick {
+      background: repeating-linear-gradient(45deg, #ffffff, #ffffff 4px, #cca03e 4px, #cca03e 8px);
+      height: 36px;
+    }
+    .candle-unit:nth-child(5) .candle-stick {
+      background: repeating-linear-gradient(45deg, #ffd166, #ffd166 4px, #ff758c 4px, #ff758c 8px);
+      height: 32px;
+    }
+
+    /* CAKE TIERS */
+    .cake-tier-top {
+      width: 140px;
+      height: 40px;
+      background: linear-gradient(135deg, #ffffff 0%, #fff2f5 100%);
+      border-radius: 12px 12px 4px 4px;
+      border: 3px solid var(--color-black);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      font-size: 11px;
+    }
+    
+    .cake-tier-mid {
+      width: 225px;
+      height: 48px;
+      background: linear-gradient(135deg, #ffffff 0%, #ffd6df 100%);
+      border-radius: 14px 14px 6px 6px;
+      border: 3px solid var(--color-black);
+      margin-top: -3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #690a20;
+      font-family: var(--font-cinzel);
+      font-size: clamp(0.88rem, 3vw, 1.1rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+
+    /* BASE TIER: COMPACT, CUTE & SUPER READABLE SATRANGI TEXT */
+    .cake-tier-base {
+      width: 285px;
+      height: 56px;
+      background: linear-gradient(135deg, #ffffff 0%, #ffeaf0 100%);
+      border-radius: 16px 16px 8px 8px;
+      border: 3px solid var(--color-black);
+      margin-top: -3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 12px;
+    }
+
+    .satrangi-anniversary-text {
+      font-family: var(--font-cute);
+      font-size: clamp(1.4rem, 4.5vw, 1.65rem);
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      background: linear-gradient(90deg, #ff1493, #a855f7, #06b6d4, #10b981, #f59e0b, #ef4444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 1.5px 3px rgba(255, 105, 180, 0.35));
+      white-space: nowrap;
+    }
+
+    .cake-platter {
+      width: 315px;
+      height: 14px;
+      background: linear-gradient(to right, #e6b800, #fff4cc, #e6b800);
+      border: 3px solid var(--color-black);
+      border-radius: 20px;
+      margin-top: -3px;
+      box-shadow: 0 4px 14px rgba(230, 184, 0, 0.35);
+    }
+
+    /* ACTION PILL BUTTON */
+    .action-btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #ffffff;
+      border: 2.5px solid var(--color-black);
+      padding: 10px 26px;
+      border-radius: 50px;
+      margin-top: 18px;
+      box-shadow: 0 6px 18px rgba(255, 107, 139, 0.25);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    .action-btn-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(255, 107, 139, 0.35);
+    }
+    .pill-side {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--color-black);
+    }
+    .pill-side i {
+      color: var(--color-heart);
+      font-size: 0.95rem;
+    }
+    .pill-divider {
+      color: #ff758c;
+      font-size: 0.72rem;
+      font-weight: 800;
+      background: #fff0f3;
+      padding: 2px 7px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 117, 140, 0.4);
+    }
+    .action-btn-pill.detecting {
+      background: linear-gradient(135deg, #ff758c, #ff3366);
+      border-color: var(--color-black);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+    }
+    .action-btn-pill.detecting .pill-side,
+    .action-btn-pill.detecting .pill-side i,
+    .action-btn-pill.detecting .pill-divider {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.5);
+      background: transparent;
+    }
+
+    /* OPEN LETTER CELEBRATION BUTTON */
+    .action-btn-pill.open-letter-mode {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      border-color: var(--color-black);
+      color: #fff;
+      animation: pulseBtn 1.5s infinite alternate ease-in-out;
+    }
+    .action-btn-pill.open-letter-mode span {
+      color: #fff;
+      font-size: 1rem;
+      letter-spacing: 0.5px;
+    }
+    .action-btn-pill.open-letter-mode i {
+      color: #ffd700;
+    }
+    @keyframes pulseBtn {
+      0% { transform: scale(1); box-shadow: 0 6px 18px rgba(255, 65, 108, 0.4); }
+      100% { transform: scale(1.06); box-shadow: 0 10px 28px rgba(255, 65, 108, 0.7); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fairy Lights -->
+  <div class="ceiling-lights">
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 52px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 34px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 48px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+  </div>
+
+  <div class="cake-card">
+    <!-- Upar Attractive Calligraphy Title -->
+    <h1 class="top-anniversary-title">Happy Anniversary</h1>
+
+    <div class="cake-board">
+      <div class="candles-row">
+        <!-- 5 Candles -->
+        <div class="candle-unit" onclick="tapCandle(1)">
+          <div class="flame-wrapper"><div class="smoke" id="smoke1"></div><div class="candle-flame" id="flame1"></div></div>
+          <div class="wick"></div><div class="candle-stick"></div>
+        </div>
+        <div class="candle-unit" onclick="tapCandle(2)">
+          <div class="flame-wrapper"><div class="smoke" id="smoke2"></div><div class="candle-flame" id="flame2"></div></div>
+          <div class="wick"></div><div class="candle-stick"></div>
+        </div>
+        <div class="candle-unit" onclick="tapCandle(3)">
+          <div class="flame-wrapper"><div class="smoke" id="smoke3"></div><div class="candle-flame" id="flame3"></div></div>
+          <div class="wick"></div><div class="candle-stick"></div>
+        </div>
+        <div class="candle-unit" onclick="tapCandle(4)">
+          <div class="flame-wrapper"><div class="smoke" id="smoke4"></div><div class="candle-flame" id="flame4"></div></div>
+          <div class="wick"></div><div class="candle-stick"></div>
+        </div>
+        <div class="candle-unit" onclick="tapCandle(5)">
+          <div class="flame-wrapper"><div class="smoke" id="smoke5"></div><div class="candle-flame" id="flame5"></div></div>
+          <div class="wick"></div><div class="candle-stick"></div>
+        </div>
+      </div>
+
+      <!-- Tiers -->
+      <div class="cake-tier-top">
+        <span>🍓</span><span>✨</span><span>💍</span><span>✨</span><span>🍓</span>
+      </div>
+      <!-- Middle Tier: Marriage Date -->
+      <div class="cake-tier-mid" id="cake-tier-date">30 April 2026</div>
+      <!-- Base Tier: Cute & Readable Satrangi Rainbow Text -->
+      <div class="cake-tier-base">
+        <span class="satrangi-anniversary-text">Wedding Anniversary</span>
+      </div>
+      <div class="cake-platter"></div>
+    </div>
+
+    <!-- Blow & Tap Button / Changes to "Open Letter 💌" after all candles blown -->
+    <a href="javascript:void(0)" class="action-btn-pill" id="actionBtnPill" onclick="handleButtonClick()">
+      <div class="pill-side">
+        <i class="fa-solid fa-microphone-lines"></i>
+        <span>Blow Mic</span>
+      </div>
+      <span class="pill-divider">OR</span>
+      <div class="pill-side">
+        <i class="fa-solid fa-hand-pointer"></i>
+        <span>Tap Candle</span>
+      </div>
+    </a>
+  </div>
+
+  <audio id="romanticMusic" preload="auto"></audio>
+
+  <script src="anniversary-config.js"></script>
+  <script>
+    const coupleText = (typeof ANNIVERSARY_CONFIG !== 'undefined' && ANNIVERSARY_CONFIG.coupleNames) 
+      ? ANNIVERSARY_CONFIG.coupleNames 
+      : "Kuldeep & Usha Kumari";
+
+    const dateText = (typeof ANNIVERSARY_CONFIG !== 'undefined' && ANNIVERSARY_CONFIG.weddingDateText) 
+      ? ANNIVERSARY_CONFIG.weddingDateText 
+      : "30 April 2026";
+
+    const musicTrack = (typeof ANNIVERSARY_CONFIG !== 'undefined' && ANNIVERSARY_CONFIG.musicSrc) 
+      ? ANNIVERSARY_CONFIG.musicSrc 
+      : "music.mp3";
+
+    document.getElementById("tab-title").textContent = `Happy Anniversary, ${coupleText}! 🎂💍✨`;
+    document.getElementById("cake-tier-date").textContent = dateText;
+
+    const audioEl = document.getElementById('romanticMusic');
+    audioEl.src = musicTrack;
+
+    const blownStatus = [false, false, false, false, false];
+    let remainingCandles = 5;
+    let micInitialized = false;
+    let audioContext, analyser, microphone, javascriptNode;
+
+    function handleButtonClick() {
+      if (remainingCandles === 0) {
+        window.location.href = "letter.html";
+      } else {
+        initBlowDetection();
+      }
+    }
+
+    // Procedural Gentle Puff Sound
+    function playPuffSound() {
+      try {
+        const aCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (aCtx.state === 'suspended') aCtx.resume();
+        const bufferSize = aCtx.sampleRate * 0.16;
+        const buffer = aCtx.createBuffer(1, bufferSize, aCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.28));
+        }
+        const noise = aCtx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = aCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(650, aCtx.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(80, aCtx.currentTime + 0.16);
+        const gain = aCtx.createGain();
+        gain.gain.setValueAtTime(0.5, aCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, aCtx.currentTime + 0.16);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(aCtx.destination);
+        noise.start();
+      } catch(e) {}
+    }
+
+    function extinguishSingleCandle(idx) {
+      if (blownStatus[idx - 1]) return;
+      blownStatus[idx - 1] = true;
+      remainingCandles--;
+
+      playPuffSound();
+
+      const flameEl = document.getElementById('flame' + idx);
+      const smokeEl = document.getElementById('smoke' + idx);
+      if (flameEl) flameEl.classList.add('blown');
+      if (smokeEl) smokeEl.classList.add('active');
+
+      if (remainingCandles === 0) {
+        // ALL 5 CANDLES BLOWN -> TRANSFORM BUTTON TO "Open Letter 💌"
+        const pill = document.getElementById('actionBtnPill');
+        pill.className = "action-btn-pill open-letter-mode";
+        pill.innerHTML = `
+          <div class="pill-side">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>Open Letter 💌</span>
+          </div>
+        `;
+
+        audioEl.play().catch(e => console.log(e));
+
+        // Sweet Pastel Rainbow Confetti Blast
+        confetti({ 
+          particleCount: 160, 
+          spread: 95, 
+          origin: { y: 0.6 },
+          colors: ['#ff1493', '#06b6d4', '#10b981', '#f59e0b', '#ffd700', '#ffffff']
+        });
+
+        if (audioContext && audioContext.state !== 'closed') audioContext.close();
+      }
+    }
+
+    function tapCandle(idx) { extinguishSingleCandle(idx); }
+
+    function initBlowDetection() {
+      if (micInitialized || remainingCandles <= 0) return;
+      navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+        .then(function(stream) {
+          micInitialized = true;
+          const statusPill = document.getElementById('actionBtnPill');
+
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = audioContext.createAnalyser();
+          microphone = audioContext.createMediaStreamSource(stream);
+          javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+          analyser.smoothingTimeConstant = 0.3;
+          analyser.fftSize = 1024;
+          microphone.connect(analyser);
+          analyser.connect(javascriptNode);
+          javascriptNode.connect(audioContext.destination);
+
+          let lastBlowTime = 0;
+          javascriptNode.onaudioprocess = function() {
+            const array = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(array);
+            let values = 0;
+            for (let i = 0; i < array.length; i++) values += array[i];
+            const average = values / array.length;
+
+            if (remainingCandles > 0) {
+              if (average > 28) statusPill.classList.add('detecting');
+              else statusPill.classList.remove('detecting');
+            }
+
+            if (average > 38) {
+              const now = Date.now();
+              if (now - lastBlowTime > 300 && remainingCandles > 0) {
+                lastBlowTime = now;
+                for (let i = 1; i <= 5; i++) {
+                  if (!blownStatus[i - 1]) {
+                    extinguishSingleCandle(i);
+                    break;
+                  }
+                }
+              }
+            }
+          };
+        })
+        .catch(function() {
+          console.log("Mic access note: Tap candles to blow.");
+        });
+    }
+
+    window.addEventListener('load', initBlowDetection);
+  </script>
+</body>
+</html>

@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title id="tab-title">Our Anniversary Book 📖💍</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@700;800;900&family=Dancing+Script:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --color-pink-bg: #fff0f3;
+      --color-white: #ffffff;
+      --color-black: #3a2228;
+      --color-heart: #ff2a5f;
+      --rose-pink: #ff758c;
+      --rose-accent: #ff416c;
+      --gold-light: #ffd700;
+      --font-body: 'Poppins', sans-serif;
+      --font-cinzel: 'Cinzel', serif;
+      --font-calligraphy: 'Alex Brush', cursive;
+      --font-cute: 'Dancing Script', cursive;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--color-pink-bg);
+      background-image: 
+        radial-gradient(circle at 50% 12%, rgba(255, 182, 193, 0.5) 0%, transparent 60%),
+        radial-gradient(#ffccd5 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 107, 139, 0.15) 1.5px, transparent 0);
+      background-size: 100% 100%, 28px 28px, 28px 28px;
+      background-position: 0 0, 0 0, 14px 14px;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+      padding: 65px 12px 20px;
+      color: var(--color-black);
+    }
+
+    /* THEMED HANGING FAIRY BULB LIGHTS */
+    .ceiling-lights {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 110px;
+      pointer-events: none;
+      z-index: 25;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 10px;
+    }
+    .light-hanger {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      animation: gentleSway 4s ease-in-out infinite alternate;
+    }
+    .wire {
+      width: 1.5px;
+      background: linear-gradient(to bottom, rgba(255, 107, 139, 0.5), rgba(255, 215, 0, 0.8));
+    }
+    .holder {
+      width: 7px;
+      height: 6px;
+      background: #c78292;
+      border-radius: 2px 2px 0 0;
+    }
+    .bulb {
+      width: 15px;
+      height: 22px;
+      background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fff0a8 45%, #ff9ebb 100%);
+      border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+      box-shadow: 0 0 16px 6px rgba(255, 158, 187, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+    @keyframes gentleSway {
+      0% { transform: rotate(-3.5deg); }
+      100% { transform: rotate(3.5deg); }
+    }
+
+    /* AMBIENT FIREFLIES & GLOW SPARKLES */
+    .sparkle-container {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .firefly {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #ffd700 60%, rgba(255, 117, 140, 0.4) 100%);
+      box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.65), 0 0 16px 4px rgba(255, 107, 139, 0.35);
+      animation: drift var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    .fairy-symbol {
+      position: absolute; font-size: 14px; color: #ff758c;
+      filter: drop-shadow(0 0 6px rgba(255, 117, 140, 0.5));
+      animation: softFloat var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    @keyframes drift {
+      0% { transform: translateY(0px) translateX(0px); }
+      100% { transform: translateY(-22px) translateX(8px); }
+    }
+    @keyframes softFloat {
+      0% { transform: translateY(0px) scale(0.9); }
+      100% { transform: translateY(-16px) scale(1.15); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.95; }
+    }
+
+    /* SCREEN TAP HEART POP */
+    .tap-heart-particle {
+      position: fixed; pointer-events: none; z-index: 9999;
+      font-size: 20px; animation: heartFly 1s ease-out forwards;
+    }
+    @keyframes heartFly {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+      100% { transform: translate(-50%, -120px) scale(1.4); opacity: 0; }
+    }
+
+    /* BOOK WRAPPER (NO FLICKER / NO BLINK) */
+    .book-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      height: 68vh;
+      max-height: 520px;
+      min-height: 440px;
+      margin: auto 0;
+      z-index: 10;
+    }
+
+    .book-card {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      border-radius: 32px;
+      border: 3.5px solid var(--color-black);
+      box-shadow: 0 18px 45px rgba(255, 107, 139, 0.28), 0 0 25px rgba(255, 214, 223, 0.5);
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 14px;
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    .book-card.active {
+      display: flex;
+      animation: smoothCardIn 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes smoothCardIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.96) translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    /* FRONT COVER PAGE */
+    .custom-royal-cover {
+      background: radial-gradient(circle at 50% 25%, #ffffff 0%, #fff0f3 100%) !important;
+      border: 3.5px solid var(--color-black) !important;
+      padding: 16px !important;
+    }
+    .cover-inner-frame {
+      width: 100%;
+      height: 100%;
+      border: 2px dashed var(--rose-pink);
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 10px;
+      position: relative;
+    }
+
+    /* HAR LETTER KA COLORED "ANNIVERSARY BOOK" */
+    .cov-top-title {
+      font-family: var(--font-cinzel);
+      font-size: clamp(1rem, 3.4vw, 1.25rem);
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 4px;
+      display: inline-flex;
+      gap: 1.5px;
+      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+    }
+    .c-gap {
+      display: inline-block;
+      width: 7px;
+    }
+    .cov-top-title span {
+      display: inline-block;
+      transition: transform 0.2s;
+    }
+    .cov-top-title span:hover {
+      transform: translateY(-2px) scale(1.15);
+    }
+    
+    /* Satrangi letter colors */
+    .l-1  { color: #ff1493; } /* Pink */
+    .l-2  { color: #ff4500; } /* Orange-Red */
+    .l-3  { color: #ff8c00; } /* Amber */
+    .l-4  { color: #eab308; } /* Golden Yellow */
+    .l-5  { color: #10b981; } /* Emerald */
+    .l-6  { color: #06b6d4; } /* Cyan */
+    .l-7  { color: #3b82f6; } /* Royal Blue */
+    .l-8  { color: #8b5cf6; } /* Purple */
+    .l-9  { color: #d946ef; } /* Magenta */
+    .l-10 { color: #f43f5e; } /* Rose */
+    .l-11 { color: #ec4899; } /* Deep Pink */
+    .l-12 { color: #a855f7; } /* Violet */
+    .l-13 { color: #0284c7; } /* Sky Blue */
+    .l-14 { color: #059669; } /* Teal */
+    .l-15 { color: #e11d48; } /* Crimson */
+
+    .cov-photo-box {
+      width: 185px;
+      height: 185px;
+      border-radius: 50%;
+      border: 3.5px solid var(--color-black);
+      outline: 2.5px dashed var(--rose-pink);
+      outline-offset: 4px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(255, 107, 139, 0.35);
+      margin: auto 0;
+      background: #fff0f3;
+    }
+    .cov-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* KULDEEP IN ATTRACTIVE ROMANTIC CALLIGRAPHY */
+    .cov-bottom-name {
+      font-family: var(--font-calligraphy);
+      font-size: clamp(46px, 12vw, 56px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 2px;
+      background: linear-gradient(135deg, #ff1493 0%, #ff416c 50%, #ff758c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 8px rgba(255, 20, 147, 0.3));
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    /* INNER PHOTO PAGES */
+    .book-photo-box {
+      width: 100%;
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2.5px solid var(--color-black);
+      background: #fff0f3;
+      margin-bottom: 12px;
+      box-shadow: 0 8px 20px rgba(255, 107, 139, 0.2);
+    }
+    .book-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* CUTE CAPTION PILL */
+    .caption-card {
+      width: 100%;
+      min-height: 54px;
+      background: #fffbfd;
+      border: 2px solid var(--rose-pink);
+      border-radius: 30px;
+      padding: 6px 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 14px rgba(255, 107, 139, 0.15);
+    }
+    .book-caption {
+      font-family: var(--font-cute);
+      font-size: 1.25rem;
+      color: #4a1525;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* BACK COVER */
+    .lastcover-box {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 2.5px solid var(--color-black);
+    }
+    .lastcover-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* NAVIGATION BUTTONS */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 14px;
+      z-index: 50;
+      width: 100%;
+    }
+    .btn-circle {
+      background: #ffffff;
+      color: var(--color-heart);
+      border: 2.5px solid var(--color-black);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(255, 107, 139, 0.25);
+      transition: all 0.25s ease;
+    }
+    .btn-circle:hover {
+      transform: scale(1.06);
+    }
+    .counter-pill {
+      font-family: var(--font-cinzel);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--color-black);
+      background: #ffffff;
+      padding: 8px 20px;
+      border-radius: 25px;
+      border: 2.5px solid var(--color-black);
+      box-shadow: 0 4px 14px rgba(255, 107, 139, 0.2);
+    }
+
+    .bottom-btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 14px;
+      z-index: 50;
+      width: 100%;
+      justify-content: center;
+    }
+    .btn-action {
+      padding: 11px 32px;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2.5px solid var(--color-black);
+      background: linear-gradient(135deg, #ff758c, #ff416c);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 65, 108, 0.35);
+      transition: all 0.25s ease;
+    }
+    .btn-action:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 25px rgba(255, 65, 108, 0.5);
+    }
+    .btn-locked {
+      opacity: 0.45;
+      cursor: not-allowed !important;
+      filter: grayscale(0.7);
+      pointer-events: none;
+    }
+
+    #lockToast {
+      position: fixed;
+      bottom: 85px;
+      background: rgba(58, 34, 40, 0.95);
+      color: #fff;
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: none;
+      z-index: 2000;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      border: 1.5px solid var(--rose-pink);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ceiling-lights">
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 52px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 34px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 48px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+  </div>
+
+  <div class="sparkle-container" id="sparkleBox"></div>
+
+  <div class="book-wrapper" id="albumWrapper">
+
+    <div class="book-card custom-royal-cover active" data-page="0">
+      <div class="cover-inner-frame">
+        <div class="cov-top-title">
+          <span class="l-1">A</span><span class="l-2">N</span><span class="l-3">N</span><span class="l-4">I</span><span class="l-5">V</span><span class="l-6">E</span><span class="l-7">R</span><span class="l-8">S</span><span class="l-9">A</span><span class="l-10">R</span><span class="l-11">Y</span>
+          <span class="c-gap"></span>
+          <span class="l-12">B</span><span class="l-13">O</span><span class="l-14">O</span><span class="l-15">K</span>
+        </div>
+
+        <div class="cov-photo-box">
+          <img src="profile.jpg" onerror="this.src='1.jpg'" id="covPhoto" alt="Cover Photo">
+        </div>
+
+        <h2 class="cov-bottom-name" id="cover-person-name">Kuldeep</h2>
+      </div>
+    </div>
+
+    <div class="book-card" data-page="1"><div class="book-photo-box"><img src="1.jpg" alt="1"></div><div class="caption-card"><div class="book-caption" id="cap-0"></div></div></div>
+    <div class="book-card" data-page="2"><div class="book-photo-box"><img src="2.jpg" alt="2"></div><div class="caption-card"><div class="book-caption" id="cap-1"></div></div></div>
+    <div class="book-card" data-page="3"><div class="book-photo-box"><img src="3.jpg" alt="3"></div><div class="caption-card"><div class="book-caption" id="cap-2"></div></div></div>
+    <div class="book-card" data-page="4"><div class="book-photo-box"><img src="4.jpg" alt="4"></div><div class="caption-card"><div class="book-caption" id="cap-3"></div></div></div>
+    <div class="book-card" data-page="5"><div class="book-photo-box"><img src="5.jpg" alt="5"></div><div class="caption-card"><div class="book-caption" id="cap-4"></div></div></div>
+    <div class="book-card" data-page="6"><div class="book-photo-box"><img src="6.jpg" alt="6"></div><div class="caption-card"><div class="book-caption" id="cap-5"></div></div></div>
+    <div class="book-card" data-page="7"><div class="book-photo-box"><img src="7.jpg" alt="7"></div><div class="caption-card"><div class="book-caption" id="cap-6"></div></div></div>
+    <div class="book-card" data-page="8"><div class="book-photo-box"><img src="8.jpg" alt="8"></div><div class="caption-card"><div class="book-caption" id="cap-7"></div></div></div>
+    <div class="book-card" data-page="9"><div class="book-photo-box"><img src="9.jpg" alt="9"></div><div class="caption-card"><div class="book-caption" id="cap-8"></div></div></div>
+    <div class="book-card" data-page="10"><div class="book-photo-box"><img src="10.jpg" alt="10"></div><div class="caption-card"><div class="book-caption" id="cap-9"></div></div></div>
+
+    <div class="book-card" data-page="11">
+      <div class="lastcover-box">
+        <img src="lastcover.jpg" onerror="this.src='profile.jpg'" id="lastCoverImg" alt="Forever">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="nav-bar">
+    <button class="btn-circle" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="counter-pill" id="counterTxt">COVER</div>
+    <button class="btn-circle" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <div class="bottom-btn-row">
+    <a href="timeline.html" id="nextPageBtn" class="btn-action btn-locked">
+      <span>Love Counter</span>
+      <i class="fa-solid fa-arrow-right"></i>
+    </a>
+  </div>
+
+  <div id="lockToast">Please flip all pages first! 📖💖</div>
+
+  <script src="anniversary-config.js"></script>
+  <script>
+    // 1. Ambient Sparkles & Fireflies
+    const box = document.getElementById('sparkleBox');
+    const symbols = ['✨', '🌸', '💖', '🌟'];
+
+    for (let i = 0; i < 16; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'firefly';
+      const size = Math.random() * 5 + 4;
+      dot.style.width = `${size}px`;
+      dot.style.height = `${size}px`;
+      dot.style.left = `${Math.random() * 92 + 4}%`;
+      dot.style.top = `${Math.random() * 88 + 6}%`;
+      dot.style.setProperty('--dur', `${3 + Math.random() * 3}s`);
+      dot.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2.5}s`);
+      dot.style.animationDelay = `${Math.random() * 3}s`;
+      box.appendChild(dot);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const sym = document.createElement('div');
+      sym.className = 'fairy-symbol';
+      sym.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      sym.style.left = `${Math.random() * 90 + 5}%`;
+      sym.style.top = `${Math.random() * 85 + 8}%`;
+      sym.style.setProperty('--dur', `${3.5 + Math.random() * 3}s`);
+      sym.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2}s`);
+      sym.style.animationDelay = `${Math.random() * 2.5}s`;
+      box.appendChild(sym);
+    }
+
+    // 2. Romantic Screen Tap Heart Popping Effect
+    window.addEventListener('pointerdown', (e) => {
+      const heart = document.createElement('div');
+      heart.className = 'tap-heart-particle';
+      const heartIcons = ['💖', '💕', '✨', '💍', '🌸'];
+      heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    });
+
+    // 3. Config Values Mapping
+    if (typeof ANNIVERSARY_CONFIG !== "undefined") {
+      // Cover name fix to Kuldeep
+      document.getElementById('cover-person-name').textContent = "Kuldeep";
+      if (ANNIVERSARY_CONFIG.couplePhoto) document.getElementById('covPhoto').src = ANNIVERSARY_CONFIG.couplePhoto;
+      if (ANNIVERSARY_CONFIG.lastCoverPhoto) document.getElementById('lastCoverImg').src = ANNIVERSARY_CONFIG.lastCoverPhoto;
+
+      if (ANNIVERSARY_CONFIG.bookCaptions && ANNIVERSARY_CONFIG.bookCaptions.length) {
+        ANNIVERSARY_CONFIG.bookCaptions.forEach((cap, idx) => {
+          const el = document.getElementById(`cap-${idx}`);
+          if (el) el.textContent = cap;
+        });
+      }
+    }
+
+    // 4. Stable Page Flipping Logic (No GPU tile drop / No blinking)
+    const cards = Array.from(document.querySelectorAll('.book-card'));
+    const total = cards.length;
+    let current = 0;
+
+    const counter = document.getElementById('counterTxt');
+    const nextBtn = document.getElementById('nextPageBtn');
+    const toast = document.getElementById('lockToast');
+
+    function showToast() {
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, 2200);
+    }
+
+    nextBtn.addEventListener('click', function(e) {
+      if (current < total - 1) { e.preventDefault(); showToast(); }
+    });
+
+    function updatePage() {
+      cards.forEach((card, idx) => {
+        card.classList.toggle('active', idx === current);
+      });
+
+      if (current === 0) counter.textContent = "COVER";
+      else if (current === total - 1) counter.textContent = "END";
+      else counter.textContent = `${current} / ${total - 2}`;
+
+      if (current === total - 1) {
+        nextBtn.classList.remove('btn-locked');
+        confetti({
+          particleCount: 90,
+          spread: 80,
+          origin: { y: 0.65 },
+          colors: ['#ff1493', '#ff416c', '#ff758c', '#ffd700', '#ffffff']
+        });
+      } else {
+        nextBtn.classList.add('btn-locked');
+      }
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (current < total - 1) { current++; updatePage(); }
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (current > 0) { current--; updatePage(); }
+    });
+
+    // Touch Swipe Support
+    let touchStartX = 0;
+    const stage = document.getElementById('albumWrapper');
+    stage.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    stage.addEventListener('touchend', e => {
+      let touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50 && current < total - 1) {
+        current++;
+        updatePage();
+      } else if (touchEndX - touchStartX > 50 && current > 0) {
+        current--;
+        updatePage();
+      }
+    }, {passive: true});
+
+    updatePage();
+  </script>
+</body>
+</html>

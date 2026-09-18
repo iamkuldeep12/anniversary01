@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title id="tab-title">Our Secret Love Letter 💌✨</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cinzel:wght@600;700;800;900&family=Dancing+Script:wght@600;700&family=Playfair+Display:ital,wght@0,600;1,600;1,700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --color-pink-bg: #fff0f3;
+      --color-white: #ffffff;
+      --color-black: #3a2228;
+      --color-heart: #ff2a5f;
+      --rose-pink: #ff758c;
+      --rose-accent: #ff416c;
+      --gold-light: #ffd700;
+      --font-body: 'Poppins', sans-serif;
+      --font-cinzel: 'Cinzel', serif;
+      --font-calligraphy: 'Alex Brush', cursive;
+      --font-cute: 'Dancing Script', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--color-pink-bg);
+      background-image: 
+        radial-gradient(circle at 50% 12%, rgba(255, 182, 193, 0.5) 0%, transparent 60%),
+        radial-gradient(#ffccd5 1.5px, transparent 1.5px),
+        radial-gradient(rgba(255, 107, 139, 0.15) 1.5px, transparent 0);
+      background-size: 100% 100%, 28px 28px, 28px 28px;
+      background-position: 0 0, 0 0, 14px 14px;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+      padding: 65px 14px 20px;
+      color: var(--color-black);
+    }
+
+    /* THEMED HANGING FAIRY BULB LIGHTS */
+    .ceiling-lights {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 110px;
+      pointer-events: none;
+      z-index: 25;
+      display: flex;
+      justify-content: space-around;
+      padding: 0 10px;
+    }
+    .light-hanger {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: top center;
+      animation: gentleSway 4s ease-in-out infinite alternate;
+    }
+    .wire {
+      width: 1.5px;
+      background: linear-gradient(to bottom, rgba(255, 107, 139, 0.5), rgba(255, 215, 0, 0.8));
+    }
+    .holder {
+      width: 7px;
+      height: 6px;
+      background: #c78292;
+      border-radius: 2px 2px 0 0;
+    }
+    .bulb {
+      width: 15px;
+      height: 22px;
+      background: radial-gradient(circle at 50% 35%, #ffffff 0%, #fff0a8 45%, #ff9ebb 100%);
+      border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+      box-shadow: 0 0 16px 6px rgba(255, 158, 187, 0.8), 0 0 25px rgba(255, 215, 0, 0.4);
+    }
+    @keyframes gentleSway {
+      0% { transform: rotate(-3.5deg); }
+      100% { transform: rotate(3.5deg); }
+    }
+
+    /* AMBIENT FIREFLIES & GLOW SPARKLES (NO RAIN) */
+    .sparkle-container {
+      position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden;
+    }
+    .firefly {
+      position: absolute; border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #ffd700 60%, rgba(255, 117, 140, 0.4) 100%);
+      box-shadow: 0 0 8px 2px rgba(255, 215, 0, 0.65), 0 0 16px 4px rgba(255, 107, 139, 0.35);
+      animation: drift var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    .fairy-symbol {
+      position: absolute; font-size: 14px; color: #ff758c;
+      filter: drop-shadow(0 0 6px rgba(255, 117, 140, 0.5));
+      animation: softFloat var(--dur) ease-in-out infinite alternate, twinkle var(--twinkle-dur) ease-in-out infinite;
+    }
+    @keyframes drift {
+      0% { transform: translateY(0px) translateX(0px); }
+      100% { transform: translateY(-22px) translateX(8px); }
+    }
+    @keyframes softFloat {
+      0% { transform: translateY(0px) scale(0.9); }
+      100% { transform: translateY(-16px) scale(1.15); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.95; }
+    }
+
+    /* SCREEN TAP HEART POP */
+    .tap-heart-particle {
+      position: fixed; pointer-events: none; z-index: 9999;
+      font-size: 20px; animation: heartFly 1s ease-out forwards;
+    }
+    @keyframes heartFly {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+      100% { transform: translate(-50%, -120px) scale(1.4); opacity: 0; }
+    }
+
+    /* HEADER */
+    .header-group {
+      text-align: center;
+      z-index: 10;
+      margin-top: 4px;
+    }
+    .sub-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #ff758c, #ff416c);
+      border: 2px solid var(--color-black);
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 5px 18px;
+      border-radius: 30px;
+      margin-bottom: 6px;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(255, 65, 108, 0.25);
+    }
+    .main-title {
+      font-family: var(--font-calligraphy);
+      font-size: clamp(38px, 9.5vw, 46px);
+      line-height: 1.1;
+      margin-top: 2px;
+      background: linear-gradient(135deg, #ff1493 0%, #ff416c 50%, #ff758c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 6px rgba(255, 20, 147, 0.25));
+    }
+
+    /* ENVELOPE STAGE */
+    .envelope-stage {
+      position: relative;
+      width: 100%;
+      max-width: 350px;
+      height: 480px;
+      margin: auto 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* CUTE PINK ENVELOPE DESIGN */
+    .envelope-wrapper {
+      position: relative;
+      width: 320px;
+      height: 220px;
+      background: linear-gradient(145deg, #ffffff 0%, #ffd6df 100%);
+      border-radius: 24px;
+      border: 3.5px solid var(--color-black);
+      box-shadow: 0 18px 45px rgba(255, 107, 139, 0.32), 0 0 25px rgba(255, 214, 223, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .envelope-wrapper.opened {
+      transform: translateY(120px) scale(0.9);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* ENVELOPE FLAP */
+    .envelope-flap {
+      position: absolute;
+      top: -1px;
+      left: 0;
+      width: 100%;
+      height: 110px;
+      background: linear-gradient(180deg, #ffccd5 0%, #ff9ebb 100%);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-bottom: 2.5px solid var(--color-black);
+      transform-origin: top;
+      z-index: 5;
+    }
+
+    /* WAX SEAL STAMP */
+    .wax-seal {
+      position: absolute;
+      top: 75px;
+      width: 60px;
+      height: 60px;
+      background: radial-gradient(circle at 35% 30%, #ff4b68, #ff3366);
+      border-radius: 50%;
+      border: 3px solid var(--color-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 22px;
+      box-shadow: 0 6px 18px rgba(255, 51, 102, 0.45);
+      z-index: 6;
+      animation: pulseSeal 2s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseSeal {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.08); }
+    }
+
+    /* EXACT TAP TO OPEN STYLING */
+    .seal-instruction {
+      position: absolute;
+      bottom: 22px;
+      font-family: var(--font-cinzel);
+      font-size: 0.92rem;
+      letter-spacing: 2.5px;
+      color: var(--color-heart);
+      text-transform: uppercase;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* REVEALED LOVE LETTER (CUTE PAPER) */
+    .parchment-letter {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+      border: 3.5px solid var(--color-black);
+      border-radius: 32px;
+      box-shadow: 0 18px 45px rgba(255, 107, 139, 0.32), 0 0 25px rgba(255, 214, 223, 0.5);
+      padding: 16px 14px;
+      color: var(--color-black);
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+      animation: slideLetter 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      z-index: 20;
+    }
+
+    @keyframes slideLetter {
+      0% { opacity: 0; transform: translateY(40px) scale(0.92); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* CUTE LOVE GIF CONTAINER */
+    .gif-showcase {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2.5px dashed var(--rose-accent);
+      padding: 3px;
+      background: #fff0f3;
+      margin-bottom: 4px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px rgba(255, 107, 139, 0.2);
+    }
+    .gif-showcase img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .letter-head {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--color-heart);
+      margin-bottom: 4px;
+      line-height: 1.25;
+    }
+
+    .letter-body-box {
+      width: 100%;
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 12px;
+      background: #fff0f3;
+      border-radius: 16px;
+      border: 1.5px dashed var(--rose-pink);
+      margin: 4px 0;
+      box-shadow: inset 0 2px 6px rgba(255, 107, 139, 0.08);
+    }
+
+    .letter-text {
+      font-family: var(--font-cute);
+      font-size: 1.35rem;
+      line-height: 1.4;
+      font-weight: 700;
+      color: #3a2228;
+    }
+
+    .letter-foot {
+      font-family: var(--font-cinzel);
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--color-heart);
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* REPLAY BUTTON */
+    .bottom-btn-row {
+      margin-top: 14px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .btn-action {
+      padding: 11px 32px;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2.5px solid var(--color-black);
+      background: linear-gradient(135deg, #ff758c, #ff416c);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 6px 20px rgba(255, 65, 108, 0.35);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn-action:hover {
+      transform: scale(1.04);
+      box-shadow: 0 10px 25px rgba(255, 65, 108, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ceiling-lights">
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 52px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 34px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 48px;"></div><div class="holder"></div><div class="bulb"></div></div>
+    <div class="light-hanger"><div class="wire" style="height: 38px;"></div><div class="holder"></div><div class="bulb"></div></div>
+  </div>
+
+  <div class="sparkle-container" id="sparkleBox"></div>
+
+  <div class="header-group">
+    <div class="sub-badge" id="weddingDateBadge">💍 30 April 2026</div>
+    <h1 class="main-title" id="coupleHeading">Kuldeep &amp; Usha Kumari</h1>
+  </div>
+
+  <div class="envelope-stage">
+    
+    <div class="envelope-wrapper" id="envelopeBox" onclick="openLoveLetter()">
+      <div class="envelope-flap" id="envelopeFlap"></div>
+      <div class="wax-seal">
+        <i class="fa-solid fa-heart"></i>
+      </div>
+      <div class="seal-instruction">TAP TO OPEN 💌</div>
+    </div>
+
+    <div class="parchment-letter" id="letterPaper">
+      <div class="gif-showcase">
+        <img src="https://media.giphy.com/media/YKUvclrGYmDKXwtphf/giphy.gif" onerror="this.src='profile.jpg'" id="loveGif" alt="Romantic Love GIF">
+      </div>
+
+      <div class="letter-head" id="letterHead">To My Forever Soulmate ❤️</div>
+
+      <div class="letter-body-box">
+        <p class="letter-text" id="letterMsg">
+          "From 30 April 2026 to eternity, marrying you is the best blessing of my life. In your smile, I found my world, and in your love, I found my peace. Happy Wedding Anniversary to the one who makes my soul smile every single day!"
+        </p>
+      </div>
+
+      <div class="letter-foot" id="letterSign">— Forever Yours, Kuldeep ♾️💍</div>
+    </div>
+
+  </div>
+
+  <div class="bottom-btn-row">
+    <a href="anniversary.html" class="btn-action">
+      <i class="fa-solid fa-rotate-left"></i>
+      <span>Relive Our Story</span>
+    </a>
+  </div>
+
+  <audio id="romanticMusic" preload="auto"></audio>
+
+  <script src="anniversary-config.js"></script>
+  <script>
+    // 1. Soft Ambient Floating Sparkles & Fireflies
+    const box = document.getElementById('sparkleBox');
+    const symbols = ['✨', '🌸', '💖', '🌟'];
+
+    for (let i = 0; i < 16; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'firefly';
+      const size = Math.random() * 5 + 4;
+      dot.style.width = `${size}px`;
+      dot.style.height = `${size}px`;
+      dot.style.left = `${Math.random() * 92 + 4}%`;
+      dot.style.top = `${Math.random() * 88 + 6}%`;
+      dot.style.setProperty('--dur', `${3 + Math.random() * 3}s`);
+      dot.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2.5}s`);
+      dot.style.animationDelay = `${Math.random() * 3}s`;
+      box.appendChild(dot);
+    }
+
+    for (let i = 0; i < 10; i++) {
+      const sym = document.createElement('div');
+      sym.className = 'fairy-symbol';
+      sym.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      sym.style.left = `${Math.random() * 90 + 5}%`;
+      sym.style.top = `${Math.random() * 85 + 8}%`;
+      sym.style.setProperty('--dur', `${3.5 + Math.random() * 3}s`);
+      sym.style.setProperty('--twinkle-dur', `${2 + Math.random() * 2.5}s`);
+      sym.style.animationDelay = `${Math.random() * 2.5}s`;
+      box.appendChild(sym);
+    }
+
+    // 2. Screen Tap Heart Popping Effect
+    window.addEventListener('pointerdown', (e) => {
+      const heart = document.createElement('div');
+      heart.className = 'tap-heart-particle';
+      const heartIcons = ['💖', '💕', '✨', '💍', '🌸'];
+      heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+      heart.style.left = e.clientX + 'px';
+      heart.style.top = e.clientY + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1000);
+    });
+
+    // 3. Config Mapping
+    const audio = document.getElementById('romanticMusic');
+    if (typeof ANNIVERSARY_CONFIG !== "undefined") {
+      if (ANNIVERSARY_CONFIG.coupleNames) document.getElementById('coupleHeading').textContent = ANNIVERSARY_CONFIG.coupleNames;
+      if (ANNIVERSARY_CONFIG.weddingDateText) document.getElementById('weddingDateBadge').textContent = `💍 ${ANNIVERSARY_CONFIG.weddingDateText}`;
+      if (ANNIVERSARY_CONFIG.loveLetterTitle) document.getElementById('letterHead').textContent = ANNIVERSARY_CONFIG.loveLetterTitle;
+      if (ANNIVERSARY_CONFIG.loveLetterContent) document.getElementById('letterMsg').textContent = `"${ANNIVERSARY_CONFIG.loveLetterContent}"`;
+      if (ANNIVERSARY_CONFIG.senderSign) document.getElementById('letterSign').textContent = ANNIVERSARY_CONFIG.senderSign;
+      if (ANNIVERSARY_CONFIG.musicSrc) audio.src = ANNIVERSARY_CONFIG.musicSrc;
+      if (ANNIVERSARY_CONFIG.coupleGif) document.getElementById('loveGif').src = ANNIVERSARY_CONFIG.coupleGif;
+    } else {
+      audio.src = "music.mp3";
+    }
+
+    // 4. Open Envelope & Reveal Letter
+    let isOpen = false;
+    function openLoveLetter() {
+      if (isOpen) return;
+      isOpen = true;
+
+      const env = document.getElementById('envelopeBox');
+      const letter = document.getElementById('letterPaper');
+
+      env.classList.add('opened');
+      audio.play().catch(e => console.log("Audio issue: ", e));
+
+      setTimeout(() => {
+        env.style.display = 'none';
+        letter.style.display = 'flex';
+
+        // Sweet Pastel Confetti Blast
+        confetti({
+          particleCount: 130,
+          spread: 90,
+          origin: { y: 0.65 },
+          colors: ['#ff1493', '#ff416c', '#ff758c', '#ffd700', '#ffffff']
+        });
+      }, 500);
+    }
+  </script>
+</body>
+</html>
