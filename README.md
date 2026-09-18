@@ -30,7 +30,7 @@ Thank you for being here! 🫶
 
 ## ⚠️ License & Usage
 
-- This project is strictly for **personal use only**[span_0](start_span)[span_0](end_span).  
-- You **cannot** post, upload, or share this project online in any form (e.g., Instagram reels, YouTube videos, websites, or any public platform) without proper permission[span_1](start_span)[span_1](end_span).  
-- Using, redistributing, or re-selling this code publicly or commercially is **strictly prohibited**[span_2](start_span)[span_2](end_span).  
-- Any unauthorized public use or duplication will be considered a **copyright violation**[span_3](start_span)[span_3](end_span).
+- This project is strictly for personal use only.
+- You cannot post, upload, or share this project online in any form (e.g., Instagram reels, YouTube videos, websites, or any public platform) without proper permission.
+- Using, redistributing, or re-selling this code publicly or commercially is strictly prohibited.
+- Any unauthorized public use or duplication will be considered a copyright violation.
